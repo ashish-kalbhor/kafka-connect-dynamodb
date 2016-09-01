@@ -1,6 +1,8 @@
 package org.apache.kafka.connect.dynamodb;
 
 import org.apache.kafka.common.config.ConfigDef;
+import org.apache.kafka.common.config.ConfigDef.Importance;
+import org.apache.kafka.common.config.ConfigDef.Type;
 import org.apache.kafka.common.utils.AppInfoParser;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.errors.ConnectException;
@@ -29,6 +31,11 @@ public class DynamoDBSinkConnector extends SinkConnector
 	private String tableName;
 	private String awsRegion;
 
+	private static final ConfigDef CONFIG_DEF = new ConfigDef()
+			.define(DYNAMODB_TABLE_NAME, Type.STRING, Importance.HIGH, "AWS DynamoDB table name.")
+			.define(DYNAMODB_REGION_NAME, Type.STRING, Importance.HIGH, " The AWS region in which DynamoDB table is created.")
+			.define(TOPICS_CONFIG, Type.STRING, Importance.HIGH, "The Kafka topic to listen from");
+	
 	@Override
 	public String version() 
 	{
@@ -79,6 +86,6 @@ public class DynamoDBSinkConnector extends SinkConnector
 	@Override
 	public ConfigDef config() 
 	{
-		return null;
+		return CONFIG_DEF;
 	}
 }
